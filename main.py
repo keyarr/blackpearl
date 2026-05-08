@@ -29,7 +29,7 @@ musicbrainzngs.set_useragent("BlackPearl", "1.0", "https://github.com/blackpearl
 
 # ─── Paths ───────────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).parent
-DOWNLOADS_DIR = Path(os.environ.get("SPOT_DOWNLOADS_DIR", str(BASE_DIR / "downloads")))
+DOWNLOADS_DIR = BASE_DIR / "downloads"
 DOWNLOADS_DIR.mkdir(parents=True, exist_ok=True)
 
 # ─── App ─────────────────────────────────────────────────────────────
@@ -864,6 +864,59 @@ async def cleanup_task(task_id: str):
     """Clean up progress tracking. File stays on disk in downloads folder."""
     download_progress.pop(task_id, None)
     return {"ok": True}
+
+
+# ─── Download Manager ───────────────────────────────────────────────────
+@app.get("/api/downloads")
+async def list_downloads():
+    """List all downloads (active + history)."""
+    # Convert dict to list with metadata
+    downloads = []
+    for task_id, progress in download_progress.items():
+        download = {
+            "task_id": task_id,
+            "status": progress.get("status", "unknown"),
+            "percent": progress.get("percent", 0),
+            "filename": progress.get("filename", ""),
+            "filepath": progress.get("filepath", ""),
+            "error": progress.get("error", ""),
+        }
+        downloads.append(download)
+    return {"downloads": downloads}
+
+
+@app.delete("/api/downloads/{task_id}")
+async def delete_download(task_id: str, keep_file: bool = True):
+    """Remove download from manager. Optionally delete the file too."""
+    if task_id not in download_progress:
+        raise HTTPException(status_code=404, detail="Download não encontrado")
+
+    progress = download_progress[task_id]
+    filepath = progress.get("filepath", "")
+
+    # Remove from tracking
+    download_progress.pop(task_id, None)
+
+    # Optionally delete file
+    if not keep_file and filepath:
+        try:
+            Path(filepath).unlink(missing_ok=True)
+        except Exception as e:
+            print(f"[manager] Erro ao deletar arquivo {filepath}: {e}")
+
+    return {"ok": True, "message": "Download removido"}
+
+
+@app.delete("/api/downloads")
+async def clear_completed():
+    """Remove all completed (done/error) downloads from the list."""
+    to_remove = [
+        tid for tid, prog in download_progress.items()
+        if prog.get("status") in ("done", "error")
+    ]
+    for tid in to_remove:
+        download_progress.pop(tid, None)
+    return {"ok": True, "removed": len(to_remove)}
 
 
 # ─── Cookie Management ───────────────────────────────────────────────

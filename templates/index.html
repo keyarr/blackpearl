@@ -44,6 +44,11 @@
                         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
                     </svg>
                 </button>
+                <!-- Tab Switcher -->
+                <div class="tab-switcher">
+                    <button id="tab-search" class="tab-btn active" data-tab="search" data-i18n="searchTab">Buscar</button>
+                    <button id="tab-downloads" class="tab-btn" data-tab="downloads" data-i18n="downloadsTab">Downloads</button>
+                </div>
             </div>
         </header>
 
@@ -162,6 +167,33 @@
                 <span class="count">0 resultados</span>
             </div>
             <div id="results-list" class="results-list"></div>
+        </section>
+
+        <!-- Downloads Manager -->
+        <section id="downloads-section" class="downloads-section hidden">
+            <div id="downloads-header" class="downloads-header">
+                <div class="downloads-title-row">
+                    <h2 data-i18n="downloads">Downloads</h2>
+                    <span class="count" id="downloads-count">0</span>
+                </div>
+                <div class="downloads-actions">
+                    <button id="clear-completed-btn" class="btn-secondary btn-sm" data-i18n="clearCompleted">
+                        Limpar concluídos
+                    </button>
+                </div>
+            </div>
+            <div id="downloads-list" class="downloads-list"></div>
+            <div id="downloads-empty" class="empty-state hidden">
+                <div class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                </div>
+                <h3 data-i18n="noDownloads">Nenhum download</h3>
+                <p data-i18n="noDownloadsDesc">Os downloads aparecerão aqui após iniciados.</p>
+            </div>
         </section>
     </div>
 

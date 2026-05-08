@@ -1,5 +1,5 @@
 [project]
-name = "spot"
+name = "bp"
 version = "1.0.0"
 description = "YouTube audio downloader with web interface"
 requires-python = ">=3.10"
@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-spot = "main:main"
+bp = "main:main"
 
 [build-system]
 requires = ["hatchling"]

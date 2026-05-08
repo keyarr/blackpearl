@@ -121,7 +121,7 @@ blackpearl/
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `SPOT_DOWNLOADS_DIR` | Download folder | `./downloads` |
+| `BP_DOWNLOADS_DIR` | Download folder | `./downloads` |
 
 ## API Endpoints
 
